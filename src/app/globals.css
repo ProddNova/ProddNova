@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-urban-900 text-urban-100;
+}
+
+.panel {
+  @apply rounded-2xl border border-urban-500 bg-urban-800 p-4 shadow-lg shadow-black/20;
+}
+
+.primary-btn {
+  @apply rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.secondary-btn {
+  @apply rounded-xl border border-urban-500 bg-urban-700 px-4 py-3 text-sm font-semibold text-urban-100 transition hover:bg-urban-500;
+}
+
+.input {
+  @apply w-full rounded-xl border border-urban-500 bg-urban-700 px-3 py-2 text-sm text-urban-100 outline-none ring-accent focus:ring;
+}
