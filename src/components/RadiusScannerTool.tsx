@@ -6,7 +6,11 @@ import { MapView } from './MapView';
 import { LocationResult } from '@/lib/types';
 import { googleMapsPinUrl } from '@/lib/map-links';
 
-export function RadiusScannerTool() {
+type Props = {
+  onSave: (input: { type: string; title: string; payload: Record<string, unknown> }) => Promise<void>;
+};
+
+export function RadiusScannerTool({ onSave }: Props) {
   const [input, setInput] = useState('Milan, Italy');
   const [radius, setRadius] = useState('5');
   const [center, setCenter] = useState<{ lat: number; lon: number } | undefined>(undefined);
@@ -46,6 +50,14 @@ export function RadiusScannerTool() {
           {loading ? 'Scanning...' : 'Scan Radius'}
         </button>
       </form>
+
+      <button
+        className="secondary-btn w-full"
+        onClick={() => onSave({ type: 'radius-scan', title: `${input} (${radius}km)`, payload: { input, radius, center, results } })}
+        disabled={!results.length}
+      >
+        Save radius scan
+      </button>
 
       <MapView markers={results} center={center} />
 
