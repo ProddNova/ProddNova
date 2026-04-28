@@ -20,7 +20,11 @@ const initialState: ChecklistState = {
   noActivity: false
 };
 
-export function AbandonmentChecklist() {
+type Props = {
+  onSave: (input: { type: string; title: string; payload: Record<string, unknown> }) => Promise<void>;
+};
+
+export function AbandonmentChecklist({ onSave }: Props) {
   const [state, setState] = useState<ChecklistState>(initialState);
 
   const score = useMemo(() => {
@@ -49,6 +53,12 @@ export function AbandonmentChecklist() {
         <p className="text-xs text-urban-300">Abandonment likelihood score</p>
         <p className="text-3xl font-bold text-accent">{score}%</p>
       </div>
+      <button
+        className="secondary-btn w-full"
+        onClick={() => onSave({ type: 'checklist', title: `Checklist score ${score}%`, payload: { state, score } })}
+      >
+        Save checklist
+      </button>
     </section>
   );
 }

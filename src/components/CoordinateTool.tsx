@@ -14,7 +14,11 @@ const parseCoordinates = (value: string) => {
   return { lat, lon };
 };
 
-export function CoordinateTool() {
+type Props = {
+  onSave: (input: { type: string; title: string; payload: Record<string, unknown> }) => Promise<void>;
+};
+
+export function CoordinateTool({ onSave }: Props) {
   const [value, setValue] = useState('45.4642, 9.19');
   const [selected, setSelected] = useState<{ lat: number; lon: number } | null>(null);
   const [nearby, setNearby] = useState<LocationResult[]>([]);
@@ -48,6 +52,14 @@ export function CoordinateTool() {
         <input className="input" value={value} onChange={(e) => setValue(e.target.value)} placeholder="lat,lon" />
         <button type="submit" className="primary-btn w-full">Inspect Coordinates</button>
       </form>
+
+      <button
+        className="secondary-btn w-full"
+        onClick={() => onSave({ type: 'coordinate-check', title: `Coordinate ${value}`, payload: { value, selected, nearby } })}
+        disabled={!selected}
+      >
+        Save coordinate inspection
+      </button>
 
       <MapView
         markers={selected ? [{ id: 'picked', lat: selected.lat, lon: selected.lon, type: 'selected', tags: {} }] : []}
